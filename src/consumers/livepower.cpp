@@ -12,7 +12,6 @@ LivePower::LivePower(sw::redis::Redis &redis)
 
 void LivePower::execute(const Json::Value &message)
 {
-    std::cout << "LIVEPOWER" << std::endl;
     if (message["type"] == "han") {
         auto data = message["data"];
 

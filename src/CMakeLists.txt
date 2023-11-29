@@ -5,6 +5,7 @@ project(readingsconsumer LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 find_path(HIREDIS_HEADER hiredis)
 find_library(HIREDIS_LIB hiredis)
 
@@ -20,6 +21,10 @@ set(HEADERS
     consumers/livepower.h
 
     parsers/jsonmessage.h
+
+    providers/dayaheadprice.h
+    providers/hour.h
+    providers/idayaheadprice.h
 )
 
 set(SOURCES
@@ -30,6 +35,8 @@ set(SOURCES
     consumers/livepower.cpp
 
     parsers/jsonmessage.cpp
+
+    providers/dayaheadprice.cpp
 
     main.cpp
 )
@@ -43,6 +50,7 @@ target_link_libraries(${PROJECT_NAME}
     PRIVATE ${HIREDIS_LIB}
     PRIVATE ${REDIS_PLUS_PLUS_LIB}
     PRIVATE jsoncpp
+    PRIVATE mysqlcppconn
 )
 
 include(GNUInstallDirs)

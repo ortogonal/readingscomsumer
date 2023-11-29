@@ -12,7 +12,6 @@ AccumulatedPower::AccumulatedPower(sw::redis::Redis &redis)
 
 void AccumulatedPower::execute(const Json::Value &message)
 {
-    std::cout << "POWER" << std::endl;
     if (message["type"] == "han") {
         auto data = message["data"];
 
@@ -20,6 +19,8 @@ void AccumulatedPower::execute(const Json::Value &message)
         std::transform(id.begin(), id.end(), id.begin(), [](char ch) {
             return ch == ' ' ? '_' : ch;
         });
+
+        std::cout << "is obj " << data["input"].isObject() << std::endl;
 
         accumulatePower("acc:power:in:" + id, data["input"]);
         accumulatePower("acc:power:out:" + id, data["output"]);

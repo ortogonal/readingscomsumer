@@ -13,6 +13,8 @@
 
 #include "parsers/jsonmessage.h"
 
+#include "providers/dayaheadprice.h"
+
 using namespace std;
 using namespace rc;
 
@@ -22,19 +24,22 @@ using Consumers
 int main()
 {
     auto redis = sw::redis::Redis("tcp://localhost:6379");
-
     QueueReader qr(redis);
 
-    vector<Consumers> consumers{consumer::AccumulatedPower{redis} /*, consumer::AccumulatedPrice{}*/,
+    provider::DayAheadPrice dayAheadPrice;
+
+    vector<Consumers> consumers{consumer::AccumulatedPower{redis},
+                                consumer::AccumulatedPrice{redis, dayAheadPrice},
                                 consumer::LivePower{redis}};
 
     qr.onNewMessage([&consumers](const std::string &message) {
+        //std::cout << message << std::endl;
         auto msg = parser::toJSONMessage(message);
         if (msg.has_value()) {
-            auto root = msg.value();
+            auto rootElement = msg.value();
 
-            for (auto &c : consumers) {
-                std::visit([root](auto &c) { consumer::execute(c, root); }, c);
+            for (auto &consumer : consumers) {
+                std::visit([rootElement](auto &c) { consumer::execute(c, rootElement); }, consumer);
             }
         } else {
             std::cerr << "Parsing error" << std::endl;
