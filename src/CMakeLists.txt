@@ -19,6 +19,7 @@ set(HEADERS
     consumers/accumulatedprice.h
     consumers/consumer.h
     consumers/livepower.h
+    consumers/power.h
 
     parsers/jsonmessage.h
 
@@ -33,6 +34,7 @@ set(SOURCES
     consumers/accumulatedpower.cpp
     consumers/accumulatedprice.cpp
     consumers/livepower.cpp
+    consumers/power.cpp
 
     parsers/jsonmessage.cpp
 

@@ -20,8 +20,6 @@ void AccumulatedPower::execute(const Json::Value &message)
             return ch == ' ' ? '_' : ch;
         });
 
-        std::cout << "is obj " << data["input"].isObject() << std::endl;
-
         accumulatePower("acc:power:in:" + id, data["input"]);
         accumulatePower("acc:power:out:" + id, data["output"]);
     }

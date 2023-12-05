@@ -45,7 +45,6 @@ void AccumulatedPrice::accumulatePrice(const std::string &key,
         if (powerMap["total"].isInt()) {
             auto wattsPerHour = (float) (powerMap["total"].asInt()) / 360.f;
             auto cost = wattsPerHour * (price / 1000);
-            std::cout << wattsPerHour << " " << price / 1000 << std::endl;
             m_redis.incrbyfloat(key, cost);
         }
     }
