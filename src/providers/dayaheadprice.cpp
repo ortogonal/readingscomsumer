@@ -1,5 +1,6 @@
 #include "dayaheadprice.h"
 
+#include <algorithm>
 #include <iostream>
 
 #include <cppconn/resultset.h>
@@ -41,6 +42,14 @@ void DayAheadPrice::load()
 
 void DayAheadPrice::load(const timepoint &from)
 {
+    auto toString = [](auto number) {
+        auto str = std::to_string(number);
+
+        auto extra = 2 - std::min(2, static_cast<int>(str.length()));
+        str.insert(0, extra, '0');
+        return str;
+    };
+
     const std::chrono::year_month_day ymd{std::chrono::floor<std::chrono::days>(from)};
     std::cout << static_cast<int>(ymd.year()) << " " << static_cast<unsigned>(ymd.month()) << " "
               << static_cast<unsigned>(ymd.day()) << " " << static_cast<bool>(ymd.ok())
@@ -49,8 +58,8 @@ void DayAheadPrice::load(const timepoint &from)
     auto statment = std::unique_ptr<sql::Statement>(m_connection->createStatement());
     auto query = "SELECT start, local_price FROM dayaheadprices WHERE start > "
                  + std::to_string(static_cast<int>(ymd.year()))
-                 + std::to_string(static_cast<unsigned>(ymd.month()))
-                 + std::to_string(static_cast<unsigned>(ymd.day())) + " LIMIT 48";
+                 + toString(static_cast<unsigned>(ymd.month()))
+                 + toString(static_cast<unsigned>(ymd.day())) + " LIMIT 48";
     std::cout << query << std::endl;
     auto res = std::unique_ptr<sql::ResultSet>(statment->executeQuery(query));
 

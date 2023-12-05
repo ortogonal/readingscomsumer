@@ -26,7 +26,7 @@ using Consumers = variant<consumer::AccumulatedPower,
 
 int main()
 {
-    auto redis = sw::redis::Redis("tcp://localhost:6379");
+    auto redis = sw::redis::Redis("tcp://192.168.1.27:6379");
     QueueReader qr(redis);
 
     provider::DayAheadPrice dayAheadPrice;
