@@ -1,0 +1,15 @@
+{
+  "dependencies": [
+    "jsoncpp",
+    {
+      "name": "redis-plus-plus",
+      "features": [
+        "cxx17"
+      ]
+    },
+    "mysql-connector-cpp"
+  ],
+  "overrides": [
+    {"name": "mysql-connector-cpp", "version": "1.1.13"}
+  ]
+}

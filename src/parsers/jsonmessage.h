@@ -3,7 +3,7 @@
 #include <optional>
 #include <string_view>
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 
 namespace rc::parser {
 
